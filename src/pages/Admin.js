@@ -6,12 +6,21 @@ import {
     useOidcUser
 } from "@axa-fr/react-oidc";
 import Layout from "../Layout";
-import CustomDiv from "./CustomDiv";
+
+fetch('https://localhost:44348/api/sras/admin-hello', {
+    method: 'GET'
+}).then(response => response.json())
+    .then(data => {console.log(data)})
+    .catch(error => {
+        console.log(error);
+    });
 
 const Admin = () => {
     const {oidcUser, oidcUserLoadingState} = useOidcUser();
     const {idToken, idTokenPayload} = useOidcIdToken();
     const {accessToken, accessTokenPayload} = useOidcAccessToken();
+
+
     return (
         <OidcSecure>
             <Layout>
@@ -26,13 +35,6 @@ const Admin = () => {
                 <p>{JSON.stringify(accessToken)}</p>
                 <p>Payload</p>
                 <p>{JSON.stringify(accessTokenPayload)}</p>
-                <CustomDiv fetch={fetch('https://localhost:44348/api/sras/admin-hello', {
-                    method: 'GET'
-                }).then(response => response.json())
-                    .then(data => {console.log(data)})
-                    .catch(error => {
-                        console.log(error);
-                    })}/>
             </Layout>
         </OidcSecure>
     );
